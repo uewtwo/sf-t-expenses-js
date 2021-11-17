@@ -29,7 +29,7 @@
 * 下記スクリプトをブックマークのURLに入れる.
 ```
 javascript:(function(){
-    var a='https://cdn.jsdelivr.net/gh/yt1n4/sf-t-expenses-js@master/input_codes.js';
+    var a='https://cdn.jsdelivr.net/gh/uewtwo/sf-t-expenses-js@master/input_codes.js';
     var d=document;
     var e=d.createElement('script');
     e.charset='utf-8';e.src=a;
