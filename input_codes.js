@@ -341,6 +341,7 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
       if (startTime.value === '') {
         startTime.value = convertRandomFactor(begin, 'begin')
         // startTime.value = begin
+      } else {
         // スタートが打刻されている場合、クラス名が変わらないのでスキップヘッダを足す
         skipHeader++
       }
