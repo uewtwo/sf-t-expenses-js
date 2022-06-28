@@ -315,14 +315,14 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
   for (i = 0; i < targetDays; i++) {
     // 時間入力するとday_time4じゃなくなるので一旦この措置
     // HTMLCollectionがループ毎に消えていく
-    const targetDay = targetElements[0]
+    const targetDay = targetElements[skipHeader]
     console.log('################')
     console.log(i)
     console.log(targetDay.id)
     console.log('################')
     // 今日まで修正フラグが立っていたら日付比較して終了する
     if (until_latest) {
-      const today = new Date('2022-06-10')
+      const today = new Date()
       const progress = new Date(targetDay.id.replace('ttvTimeSt', ''))
       if (progress >= today) {
         break
