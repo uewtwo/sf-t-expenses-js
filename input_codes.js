@@ -1,4 +1,4 @@
-/** @license https://github.com/yt1n4 */
+/** @license https://github.com/uewtwo */
 
 LIGHTNING_BASE_URI = '--teamspirit.visualforce.com'
 
@@ -13,6 +13,10 @@ function sleep (msec) {
     dt2 = new Date().getTime()
   }
   return
+}
+
+async function sleepAsync (ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 function isTargetDate (tarDayWeek, tarDate) {
@@ -303,7 +307,48 @@ function inputWorkloadPerformance (job_clock_map) {
 }
 
 /** 勤怠打刻修正 */
-function inputAttendanceFix (isLightning, begin_time, end_time, until_latest) {
+async function inputAttendanceFix (isLightning, begin_time, end_time, until_latest) {
+  const targetElements = document.getElementsByClassName('dval vst day_time0')
+  const targetDays = targetElements.length
+  for (i = 0; i < targetDays; i++) {
+    const targetDay = targetElements[i]
+    // 申請がデフォルトでなければ入力はスキップ（申請欄のHTMLタイトルを見て判定）
+    const applyId = targetDay.id.replace('TimeSt', 'Apply')
+    if (document.getElementById(applyId).title !== '勤怠関連申請') {
+      continue
+    }
+    targetDay.click()
+    const registerTime = async function (begin, end) {
+      const startTime = document.getElementById('startTime')
+      // 何か入っていなければ入れる
+      if (startTime.value === '') {
+        startTime.value = begin_time
+      }
+      const endTime = document.getElementById('endTime')
+      if (endTime.value === '') {
+        endTime.value = end_time
+      }
+      document.getElementById('dlgInpTimeOk').click()
+    }
+
+    await registerTime(begin_time, end_time)
+
+    // 登録完了の通信を10秒待つ、少数扱いたくないのでカウンターが10なら5秒
+    var waitTime = 0
+    while(waitTime < 20) {
+      ++waitTime
+      if (targetDay.innerText !== '') {
+        await sleepAsync(100)
+        break
+      }
+      await sleepAsync(500)
+    }
+  }
+}
+
+
+/** 勤怠打刻修正 */
+function _inputAttendanceFix (isLightning, begin_time, end_time, until_latest) {
   // ループ回数の上限
   const loop_max_count = 500
   // ループカウンター
@@ -666,7 +711,7 @@ function execWorkload (isLightning) {
     console.log(job_clock_map)
     inputWorkloadPerformance(job_clock_map)
   })
-}
+}LIGHTNING_BASE_URI
 
 /** 勤怠打刻修正 */
 function createAttendanceDSForm (isLightning) {
