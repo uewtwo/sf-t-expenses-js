@@ -340,7 +340,6 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
       // 何か入っていなければ入れる
       if (startTime.value === '') {
         startTime.value = convertRandomFactor(begin, 'begin')
-        // startTime.value = begin
       } else {
         // スタートが打刻されている場合、クラス名が変わらないのでスキップヘッダを足す
         skipHeader++
@@ -348,7 +347,6 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
       const endTime = document.getElementById('endTime')
       if (endTime.value === '') {
         endTime.value = convertRandomFactor(end, 'end')
-        // endTime.value = end
       }
       document.getElementById('dlgInpTimeOk').click()
     }
