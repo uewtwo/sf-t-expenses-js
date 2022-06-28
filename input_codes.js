@@ -310,11 +310,28 @@ function inputWorkloadPerformance (job_clock_map) {
 async function inputAttendanceFix (isLightning, begin_time, end_time, until_latest) {
   const targetElements = document.getElementsByClassName('dval vst day_time0')
   const targetDays = targetElements.length
+  // 申請があったりするとスキップする必要がある
+  var skipHeader = 0
   for (i = 0; i < targetDays; i++) {
-    const targetDay = targetElements[i]
+    // 時間入力するとday_time4じゃなくなるので一旦この措置
+    // HTMLCollectionがループ毎に消えていく
+    const targetDay = targetElements[0]
+    console.log('################')
+    console.log(i)
+    console.log(targetDay.id)
+    console.log('################')
+    // 今日まで修正フラグが立っていたら日付比較して終了する
+    if (until_latest) {
+      const today = new Date('2022-06-10')
+      const progress = new Date(targetDay.id.replace('ttvTimeSt', ''))
+      if (progress >= today) {
+        break
+      }
+    }
     // 申請がデフォルトでなければ入力はスキップ（申請欄のHTMLタイトルを見て判定）
     const applyId = targetDay.id.replace('TimeSt', 'Apply')
     if (document.getElementById(applyId).title !== '勤怠関連申請') {
+      skipHeader++
       continue
     }
     targetDay.click()
@@ -322,11 +339,13 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
       const startTime = document.getElementById('startTime')
       // 何か入っていなければ入れる
       if (startTime.value === '') {
-        startTime.value = begin_time
+        startTime.value = convertRandomFactor(begin, 'begin')
+        // startTime.value = begin
       }
       const endTime = document.getElementById('endTime')
       if (endTime.value === '') {
-        endTime.value = end_time
+        endTime.value = convertRandomFactor(end, 'end')
+        // endTime.value = end
       }
       document.getElementById('dlgInpTimeOk').click()
     }
@@ -336,13 +355,15 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
     // 登録完了の通信を10秒待つ、少数扱いたくないのでカウンターが10なら5秒
     var waitTime = 0
     while(waitTime < 20) {
-      ++waitTime
+      waitTime++
       if (targetDay.innerText !== '') {
         await sleepAsync(100)
         break
       }
       await sleepAsync(500)
     }
+
+    await sleepAsync(100)
   }
 }
 
