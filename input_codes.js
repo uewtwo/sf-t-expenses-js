@@ -341,6 +341,8 @@ async function inputAttendanceFix (isLightning, begin_time, end_time, until_late
       if (startTime.value === '') {
         startTime.value = convertRandomFactor(begin, 'begin')
         // startTime.value = begin
+        // スタートが打刻されている場合、クラス名が変わらないのでスキップヘッダを足す
+        skipHeader++
       }
       const endTime = document.getElementById('endTime')
       if (endTime.value === '') {
