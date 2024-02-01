@@ -800,7 +800,8 @@ function execAttendance (isLightning) {
   } else if (isLightning && isTransition) {
     app_id = url.slice(url.lastIndexOf('apex/') + 5)
   } else if (!isLightning) {
-    app_id = url.slice(url.lastIndexOf('/') + 1, url.lastIndexOf('?'))
+    const hasQueryParams = url.lastIndexOf('?') >= 0
+    app_id = url.slice(url.lastIndexOf('/') + 1, hasQueryParams ? url.lastIndexOf('?') : undefined)
   }
 
   // 社名を隠すためにURLから引っ張る
