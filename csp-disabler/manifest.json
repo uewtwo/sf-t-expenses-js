@@ -1,16 +1,18 @@
 {
-    "name": "csp diabler",
-    "version": "1.0",
-    "manifest_version": 2,
-    "description": "Content Security Policy Disabler",
-    "permissions": [
-      "https://*.lightning.force.com/*",
-      "https://*.visualforce.com/*",
-      "webRequest",
-      "webRequestBlocking"
-    ],
-    "background": {
-      "scripts": ["background.js"],
-      "persistent": true
-    }
+  "name": "csp diabler",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Content Security Policy Disabler",
+  "permissions": [
+    "https://*.lightning.force.com/*",
+    "https://*.visualforce.com/*",
+    "https://*.vf.force.com/*",
+    "https://attendance.moneyforward.com",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  }
 }
