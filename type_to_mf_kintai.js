@@ -5,21 +5,21 @@ async function enterAttendance() {
   )
   workdayRows.forEach((row) => {
     attendances.push(
-      Array.from(row.querySelectorAll(".column-attendance-record"))
-        .slice(0, 2)
-        .map((r) => r.querySelector("input[type=text]"))
+      Array.from(row.querySelectorAll(".column-attendance-record")).map((r) =>
+        r.querySelector("input[type=text]")
+      )
     )
   })
 
-  attendances.slice(0, 2).forEach((attendance) => {
+  attendances.forEach((attendance) => {
     attendance[0].value = "10:00"
     attendance[0].dispatchEvent(new Event("change", { bubbles: true }))
   })
   await new Promise((waiter) => setTimeout(waiter, 50))
-  attendances.slice(0, 2).forEach((attendance) => {
+  attendances.forEach((attendance) => {
     attendance[1].value = "19:00"
     attendance[1].dispatchEvent(new Event("change", { bubbles: true }))
   })
 }
 
-enterAttendance()
+await enterAttendance()
