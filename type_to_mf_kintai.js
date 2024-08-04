@@ -22,4 +22,6 @@ async function enterAttendance() {
   })
 }
 
-await enterAttendance()
+(async () => {
+  await enterAttendance();
+})();
