@@ -18,6 +18,7 @@
   - 勤怠打刻の時間がランダムで前後します（設定より内側にはこない）
 
 ## HOW TO USE
+moneyforwardの場合は `var a=` に `https://cdn.jsdelivr.net/gh/uewtwo/sf-t-expenses-js@release/cmn/2.1/type_to_mf_kintai.js` を入れる
 
 ### Lightning
 1. Chrome Extension を用いる
